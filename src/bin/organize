@@ -2,6 +2,8 @@
 <?php
 
 require __DIR__.'/../../vendor/autoload.php';
+(@include_once __DIR__ . '/../../vendor/autoload.php') || @include_once  __DIR__.'/../../../../../vendor/autoload.php';
+
 
 use Cpyree\Organizer\Command\OrganizeCommand;
 use Symfony\Component\Console\Application;
