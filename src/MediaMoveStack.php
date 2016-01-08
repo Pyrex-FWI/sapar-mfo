@@ -20,7 +20,9 @@ class MediaMoveStack
     private $targetDest;
     private $removeParentDirIfEmpty = false;
 
-
+    private $buildNativeCommand = false;
+    /** @var  string */
+    private $nativeCommad;
     /**
      * @param boolean $partsIsIncomplete
      * @return MediaMoveStack
@@ -44,7 +46,7 @@ class MediaMoveStack
         $this->pathParts = [];
         $this->fileParts = [];
         $this->partsIsIncomplete = false;
-
+        $this->nativeCommad = null;
         return $this;
     }
 
@@ -108,6 +110,10 @@ class MediaMoveStack
         $target = implode(DIRECTORY_SEPARATOR, $targetPathParts);
         $targetFileInfo = new \SplFileInfo(($target));
         if ($this->id3metadata->getFile()->getPathname() == $targetFileInfo->getPathname()) {
+            return true;
+        }
+        if ($this->getBuildNativeCommand()) {
+            $this->buildNativeCommand($this->id3metadata->getFile()->getPathname(), $targetFileInfo->getPathname());
             return true;
         }
 
@@ -203,5 +209,38 @@ class MediaMoveStack
         $this->removeParentDirIfEmpty = $removeParentDirIfEmpty;
         return $this;
     }
+
+    /**
+     * @return boolean
+     */
+    public function getBuildNativeCommand()
+    {
+        return $this->buildNativeCommand;
+    }
+
+    /**
+     * @param $buildNativeCommand
+     * @return $this
+     */
+    public function setBuildNativeCommand($buildNativeCommand)
+    {
+        $this->buildNativeCommand = $buildNativeCommand;
+
+        return $this;
+    }
+
+    private function buildNativeCommand($src, $dest)
+    {
+        $this->nativeCommad = sprintf('mv %s %s', $src, $dest);
+    }
+
+    /**
+     * @return string
+     */
+    public function getNativeCommand()
+    {
+        return $this->nativeCommad;
+    }
+
 
 }

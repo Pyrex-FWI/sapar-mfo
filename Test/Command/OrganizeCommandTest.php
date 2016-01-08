@@ -85,6 +85,25 @@ class OrganizeCommandTest extends \PHPUnit_Framework_TestCase
         $fs->remove(__DIR__.'/2003/');
     }
 
+    public function testDumpCommandExecute()
+    {
+        /** @var OrganizeCommand $command */
+        $noTagDir = __DIR__.'/NO_TAG';
+        $this->commandTester->execute([
+            'command'       => $this->command->getName(),
+            'output-dir'    => __DIR__,
+            '--file-dir'    => realpath(__DIR__.'/../'),
+            '--dump-command'=> ' ',
+            '--move-untagged-to'    => $noTagDir,
+
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+        $outputArray = array_map('trim', explode(PHP_EOL, $output));
+        $this->assertEquals('mv '.realpath(__DIR__.'/../').'/toddle.mp3 '.__DIR__.'/2003/Celtic/toddle.mp3', $outputArray[0]);
+        $this->assertEquals('mv '.realpath(__DIR__.'/../').'/wrong_file.mp3 '.__DIR__.'/NO_TAG/wrong_file.mp3', $outputArray[1]);
+    }
+
     /**
      *
      */

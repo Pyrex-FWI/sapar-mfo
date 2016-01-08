@@ -28,6 +28,8 @@ class OrganizeCommand extends Command
     /** @var  OutputInterface */
     private $ouput;
 
+    private $nativeCommandStack = [];
+
     protected function configure()
     {
         $this
@@ -62,6 +64,12 @@ class OrganizeCommand extends Command
                 InputOption::VALUE_REQUIRED,
                 'Move File with insufisant tag to a specific directory'
             )
+            ->addOption(
+                'dump-command',
+                null,
+                InputOption::VALUE_NONE,
+                'Dump commands'
+            )
         ;
     }
 
@@ -84,15 +92,25 @@ class OrganizeCommand extends Command
                 /** @var SplFileInfo $file */
                 $this->doJob($file->getRealPath());
             }
-            $output->writeln(sprintf('Files:%s', $this->files));
-            $output->writeln(sprintf('Moved:%s', $this->movedFiles));
-            $output->writeln(sprintf('UntaggedFiles:%s', $this->untaggedFiles));
-            $output->writeln(sprintf('Unmoved:%s', $this->unMovedFiles));
+            $this->printFinalInfo($output);
+        }
+
+        if ($this->input->getOption('dump-command')) {
+            $this->ouput->writeln($this->nativeCommandStack);
         }
 
         return 0;
     }
 
+    private function getBaseMoverStack(Id3Metadata $id3Metadata)
+    {
+        $mms = new MediaMoveStack($id3Metadata);
+        $mms->setRemoveParentDirIfEmpty(true);
+        if ($this->input->getOption('dump-command')) {
+            $mms->setBuildNativeCommand(true);
+        }
+        return $mms;
+    }
     /**
      * @param $file
      * @throws \Exception
@@ -102,12 +120,12 @@ class OrganizeCommand extends Command
         $this->files++;
         $id3Meta = new Id3Metadata($file);
         $this->mediainfoWrapper->read($id3Meta);
-        $mover = new MediaMoveStack($id3Meta);
-        $return = $mover->pathAddMediaYear()->pathAddMediaGenre()->setRemoveParentDirIfEmpty(true)->moveIn($this->input->getArgument('output-dir'));
-        if ($return) {
+        $mover = $this->getBaseMoverStack($id3Meta);
+        $return = $mover->pathAddMediaYear()->pathAddMediaGenre()->moveIn($this->input->getArgument('output-dir'));
+        if ($return && !$this->input->getOption('dump-command')) {
             $this->ouput->writeln($mover->getTargetDest()->getRealPath());
             $this->movedFiles++;
-            return;
+            //return;
         }
 
         $moveToUntagged = $this->input->getOption('move-untagged-to');
@@ -115,13 +133,32 @@ class OrganizeCommand extends Command
             if (!is_dir($moveToUntagged)) {
                 mkdir($moveToUntagged, 0775, true);
             }
-            if ($mover->reset()->moveIn($moveToUntagged)) {
+            if ($return = $mover->reset()->moveIn($moveToUntagged)) {
                 $this->untaggedFiles++;
-                return;
+                //return;
             }
+        }
+
+        if ($return && $this->input->getOption('dump-command')) {
+            $this->nativeCommandStack[] = $mover->getNativeCommand();
         }
 
         $this->unMovedFiles++;
 
+    }
+
+    /**
+     * @param OutputInterface $output
+     */
+    protected function printFinalInfo(OutputInterface $output)
+    {
+        if ($this->ouput->getVerbosity() < OutputInterface::VERBOSITY_VERBOSE) {
+            return;
+        }
+
+        $output->writeln(sprintf('Files:%s', $this->files));
+        $output->writeln(sprintf('Moved:%s', $this->movedFiles));
+        $output->writeln(sprintf('UntaggedFiles:%s', $this->untaggedFiles));
+        $output->writeln(sprintf('Unmoved:%s', $this->unMovedFiles));
     }
 }
