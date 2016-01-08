@@ -25,5 +25,5 @@ $ src/bin/organize organize /output/directory --file-dir /path/of/files/to/organ
 ```
 
 ```sh
-$ find /path/of/files/to/organize -type f -name '*.mp3' -exec src/bin/organize organize /output/directory {} --move-untagged-to /path/to/move/incorrect-tagged-files  \;
+$ find /path/of/files/to/organize -type f -name '*.mp3' -exec src/bin/organize organize /output/directory {} --move-untagged-to /path/to/move/incorrect-tagged-files \;
 ```

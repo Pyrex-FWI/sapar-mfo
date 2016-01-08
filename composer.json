@@ -20,9 +20,9 @@
   },
   "require": {
     "pyrex-fwi/id3": "dev-master",
-    "symfony/filesystem": "^3.0",
-    "symfony/console": "^3.0",
-    "symfony/finder": "^3.0"
+    "symfony/filesystem": "^2.8",
+    "symfony/console": "^2.8",
+    "symfony/finder": "^2.8"
   },
   "bin": ["src/bin/organize"]
 }

@@ -54,7 +54,7 @@ class OrganizeCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'pathfile of mediainfo bin',
-                '/usr/local/bin/mediainfo'
+                '//usr/bin/mediainfo'
             )
             ->addOption(
                 'move-untagged-to',
