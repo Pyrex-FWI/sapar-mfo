@@ -2,27 +2,35 @@
 
 namespace Cpyree\Organizer;
 
-
 use Cpyree\Entity\Media;
 use Cpyree\Id3\Metadata\Id3Metadata;
 use Deejay\Id3ToolBundle\Wrapper\Id3Manager;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * Class MediaMoveStack
+ * @package Cpyree\Organizer
+ */
 class MediaMoveStack
 {
     /** @var Id3Metadata  */
     private $id3metadata;
+    /** @var array  */
     private $pathParts = [];
+    /** @var array  */
     private $fileParts = [];
+    /** @var bool  */
     private $partsIsIncomplete = false;
     /** @var  \SplFileInfo */
     private $targetDest;
+    /** @var bool  */
     private $removeParentDirIfEmpty = false;
-
+    /** @var bool  */
     private $buildNativeCommand = false;
     /** @var  string */
     private $nativeCommad;
+
     /**
      * @param boolean $partsIsIncomplete
      * @return MediaMoveStack
@@ -33,6 +41,10 @@ class MediaMoveStack
         return $this;
     }
 
+    /**
+     * MediaMoveStack constructor.
+     * @param Id3Metadata $id3Metadata
+     */
     public function __construct(Id3Metadata $id3Metadata)
     {
         $this->id3metadata = $id3Metadata;
@@ -181,7 +193,10 @@ class MediaMoveStack
      */
     private function sanitize($string)
     {
-        return preg_replace('/[^a-zA-Z0-9\-\_&\s]/', '', $string);
+        $string = preg_replace('/[^a-zA-Z0-9\-\_&\s]/', '', $string);
+        $string = ucwords(mb_strtolower($string));
+
+        return $string;
     }
 
     /**
