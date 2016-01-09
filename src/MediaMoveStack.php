@@ -122,7 +122,7 @@ class MediaMoveStack
         $target = implode(DIRECTORY_SEPARATOR, $targetPathParts);
         $targetFileInfo = new \SplFileInfo(($target));
         if ($this->id3metadata->getFile()->getPathname() == $targetFileInfo->getPathname()) {
-            return true;
+            return false;
         }
         if ($this->getBuildNativeCommand()) {
             $this->buildNativeCommand($this->id3metadata->getFile()->getPathname(), $targetFileInfo->getPathname());
