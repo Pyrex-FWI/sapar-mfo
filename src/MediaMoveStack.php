@@ -231,7 +231,7 @@ class MediaMoveStack
 
     private function buildNativeCommand($src, $dest)
     {
-        $this->nativeCommad = sprintf('mv %s %s', $src, $dest);
+        $this->nativeCommad = sprintf('mv %s %s', escapeshellarg($src), escapeshellarg($dest));
     }
 
     /**
