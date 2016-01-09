@@ -70,6 +70,12 @@ class OrganizeCommand extends Command
                 InputOption::VALUE_NONE,
                 'Dump commands'
             )
+            ->addOption(
+                'remove-empty-dir',
+                null,
+                InputOption::VALUE_NONE,
+                'Remove dir after move if is empty'
+            )
         ;
     }
 
@@ -105,9 +111,11 @@ class OrganizeCommand extends Command
     private function getBaseMoverStack(Id3Metadata $id3Metadata)
     {
         $mms = new MediaMoveStack($id3Metadata);
-        $mms->setRemoveParentDirIfEmpty(true);
         if ($this->input->getOption('dump-command')) {
             $mms->setBuildNativeCommand(true);
+        }
+        if ($this->input->getOption('remove-empty-dir')) {
+            $mms->setRemoveParentDirIfEmpty(true);
         }
         return $mms;
     }
