@@ -19,7 +19,7 @@
     "phpunit/phpunit": "5.1.3"
   },
   "require": {
-    "pyrex-fwi/id3": "dev-master",
+    "pyrex-fwi/id3": "^v0.2",
     "symfony/filesystem": "^2.8",
     "symfony/console": "^2.8",
     "symfony/finder": "^2.8"
