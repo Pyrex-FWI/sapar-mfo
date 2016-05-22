@@ -1,10 +1,10 @@
 <?php
 
-namespace Cpyree\Organizer\Command;
+namespace Sapar\Mfo\Command;
 
-use Cpyree\Id3\Metadata\Id3Metadata;
-use Cpyree\Id3\Wrapper\BinWrapper\MediainfoWrapper;
-use Cpyree\Organizer\MediaMoveStack;
+use Sapar\Id3\Metadata\Id3Metadata;
+use Sapar\Id3\Wrapper\BinWrapper\MediainfoWrapper;
+use Sapar\Mfo\MediaMoveStack;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-class OrganizeCommand extends Command
+class OrganizeFileCommand extends Command
 {
 
     /** @var  MediainfoWrapper */
@@ -33,8 +33,8 @@ class OrganizeCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('organizer')
-            ->setDescription('Organize media')
+            ->setName('organizer:files')
+            ->setDescription('Organize mediafile')
             ->addArgument(
                 'output-dir',
                 InputArgument::REQUIRED,

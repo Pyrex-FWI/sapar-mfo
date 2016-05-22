@@ -1,16 +1,14 @@
 <?php
 
-namespace Cpyree\Organizer;
+namespace Sapar\Mfo;
 
-use Cpyree\Entity\Media;
-use Cpyree\Id3\Metadata\Id3Metadata;
-use Deejay\Id3ToolBundle\Wrapper\Id3Manager;
+use Sapar\Id3\Metadata\Id3Metadata;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
 /**
  * Class MediaMoveStack
- * @package Cpyree\Organizer
+ * @package Sapar\Mfo
  */
 class MediaMoveStack
 {

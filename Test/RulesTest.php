@@ -1,10 +1,9 @@
 <?php
 
-namespace Cpyree\Organizer\Test;
+namespace Sapar\Mfo\Test;
 
 
-use Cpyree\Organizer\MediaMoveStack;
-use Cpyree\Organizer\Test\Helper;
+use Sapar\Mfo\MediaMoveStack;
 
 class RulesTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +18,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     public function testFileGenreRule()
     {
         $mediaInfoWrapper = Helper::getMedianfoWrapper();
-        $id3meta = \Cpyree\Organizer\Test\Helper::getId3Metadata(\Cpyree\Organizer\Test\Helper::getSampeMp3File());
+        $id3meta = \Sapar\Mfo\Test\Helper::getId3Metadata(\Sapar\Mfo\Test\Helper::getSampeMp3File());
         $mediaInfoWrapper->read($id3meta);
         $mediaMove = new MediaMoveStack($id3meta);
         $moveResult = $mediaMove->reset()->pathAddMediaGenre()->pathAddMediaYear()->pathAddFileMonth()->moveIn(__DIR__.'/..//');
