@@ -2,14 +2,14 @@
 
 namespace AppBundle\Tests\Command;
 
-use Cpyree\Organizer\Command\OrganizeCommand;
-use Cpyree\Organizer\Test\Helper;
+use Sapar\Mfo\Command\OrganizeFileCommand;
+use Sapar\Mfo\Test\Helper;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 
-class OrganizeCommandTest extends \PHPUnit_Framework_TestCase
+class OrganizeFileCommandTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  Container */
     protected $application;
@@ -22,8 +22,8 @@ class OrganizeCommandTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->application = new Application();
-        $this->application->add(new OrganizeCommand());
-        $this->command = $this->application->find('organize');
+        $this->application->add(new OrganizeFileCommand());
+        $this->command = $this->application->find('organizer:files');
         $this->commandTester = new CommandTester($this->command);
     }
 
@@ -114,7 +114,7 @@ class OrganizeCommandTest extends \PHPUnit_Framework_TestCase
         $fildir = realpath(__DIR__.'/../');
         $bin = realpath(__DIR__.'/../../src/bin/organize');
 
-        $cmd = ("find $fildir -type f -name '*.mp3' -exec $bin organize $outputDir {} \\;");
+        $cmd = ("find $fildir -type f -name '*.mp3' -exec $bin organizer:files $outputDir {} \\;");
         $output = trim(shell_exec($cmd));
         $dest = new \SplFileInfo($output);
 

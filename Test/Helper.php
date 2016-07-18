@@ -1,10 +1,10 @@
 <?php
 
-namespace Cpyree\Organizer\Test;
+namespace Sapar\Mfo\Test;
 
 
-use Cpyree\Id3\Metadata\Id3Metadata;
-use Cpyree\Id3\Wrapper\BinWrapper\MediainfoWrapper;
+use Sapar\Id3\Metadata\Id3Metadata;
+use Sapar\Id3\Wrapper\BinWrapper\MediainfoWrapper;
 
 class Helper
 {

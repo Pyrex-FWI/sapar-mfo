@@ -1,6 +1,6 @@
 
 
-# sapar-organizer Package
+# sapar-media-file-organizer Package
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
 [![Build Status](https://travis-ci.org/Pyrex-FWI/sapar-organizer.svg?branch=master)](https://travis-ci.org/Pyrex-FWI/sapar-organizer)

@@ -4,9 +4,11 @@ ini_set('memory_limit', -1);
 (@include_once __DIR__ . '/../../vendor/autoload.php') || @include_once  __DIR__.'/../../../../../vendor/autoload.php';
 
 
-use Cpyree\Organizer\Command\OrganizeCommand;
+use Sapar\Mfo\Command\OrganizeFileCommand;
+use Sapar\Mfo\Command\OrganizeAlbumCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
-$application->add(new OrganizeCommand());
+$application->add(new OrganizeFileCommand());
+$application->add(new OrganizeAlbumCommand());
 $application->run();
